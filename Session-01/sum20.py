@@ -1,6 +1,6 @@
 res = 0
 
-for i in range(1, 21):
-    res += i
+for a in range(1, 21):
+    res += a
 
 print("Total sum: ", res)
