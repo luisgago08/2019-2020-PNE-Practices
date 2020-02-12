@@ -4,8 +4,10 @@ FILENAME = "U5.txt"
 
 file_contents = Path(FILENAME).read_text()
 
-body = file_contents.split('\n')[1:]
+seq_dna = file_contents
+index_finish = seq_dna.find('\n')
+seq_dna = seq_dna[index_finish + 1:]
+seq_dna = seq_dna.replace('\n', '')
+number_bases = len(seq_dna)
 
-x = body.replace('"', "").replace("\n", "").split(',')
-
-print(x)
+print(number_bases)
