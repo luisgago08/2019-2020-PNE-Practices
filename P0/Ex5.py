@@ -1,13 +1,11 @@
 from Seq0 import *
 
 FOLDER = '../Session-04/'
-Names = ['U5.txt', 'RNU6_269P.txt', 'FXN.txt', 'ADA.txt', 'FRAT1.txt']
+Names = ['U5', 'RNU6_269P', 'FXN', 'ADA', 'FRAT1']
 Bases = ['A', 'C', 'T', 'G']
-
+txt = '.txt'
 print('-----| Exercise 5 |------')
-GENE = Names[0]
-print(f"Gene {GENE}:")
-seq = seq_read_fasta(FOLDER + Names[0])[:20]
-rev = seq_reverse(seq)
-print(f"Frag: {seq}")
-print(f"Rev : {rev}")
+
+for gene in Names:
+    seq = seq_read_fasta(FOLDER + gene + txt)
+    print(f"Gene {gene}: {seq_count(seq)}")
