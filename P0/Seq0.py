@@ -32,7 +32,9 @@ def seq_reverse(seq):
     return seq[::-1]
 
 # Ex7
-#def seq_complement(seq):
-    #dict = {"A": "T", "T": "A", "C": "G", "G": "C", }
-    #com_seq = ""
-    #for element in seq:
+def seq_complement(seq):
+    dict = {"A": "T", "T": "A", "C": "G", "G": "C", }
+    com_seq = ""
+    for element in seq:
+        com_seq = com_seq + dict[element]
+    return com_seq
