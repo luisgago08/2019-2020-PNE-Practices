@@ -1,36 +1,42 @@
 class Seq:
-<<<<<<< Updated upstream
-    """A class for reresenting sequence objects"""
-=======
-    """A class for representing list objects"""
->>>>>>> Stashed changes
+    """A class for representing sequences"""
+
     def __init__(self, strbases):
+
+        # Initialize the sequence with the value
+        # passed as argument when creating the object
+
+        # -- Valid bases
+        bases = ['A', 'C', 'G', 'T']
+
+        # -- Check that the string used for the initialization
+        # -- only contains valid bases
+        for b in strbases:
+            if b not in bases:
+                print("ERROR!!")
+                self.strbases = "ERROR"
+                return
+
         self.strbases = strbases
-        print("New sequence created")
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
     def __str__(self):
+        """Method called when the object is being printed"""
+
+        # -- We just return the string with the sequence
         return self.strbases
 
     def len(self):
-<<<<<<< Updated upstream
-        return len(self.strbases)
-
-
-seq_list = [Seq("ACT"), Seq("GATA"), Seq("CAGATA")]
-print(f"Sequence 1: {seq_list}")
-=======
         """Calculate the length of the sequence"""
         return len(self.strbases)
 
-class List(Seq):
-    pass
 
+def print_seqs(seqs):
+    """Print a list of sequences"""
+    for seq in seqs:
+        print(f"Sequence {seqs.index(seq)}: (Length: {seq.len()}) {seq}")
+
+
+# -- Main program
 seq_list = [Seq("ACT"), Seq("GATA"), Seq("CAGATA")]
 
-print(f"Sequence 1: {seq_list[0]()}")
-
->>>>>>> Stashed changes
+print_seqs(seq_list)
