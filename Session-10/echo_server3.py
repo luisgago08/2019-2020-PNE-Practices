@@ -7,11 +7,11 @@ PORT = 8080
 # --- step 1: creating the socket
 ls = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# -- Optional: This is for avoiding the problem of Port already in use
-ls.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
 # --- step 2: Bind the socket to the server's IP and PORT
 ls.bind((IP, PORT))
+
+# -- Optional: This is for avoiding the problem of Port already in use
+ls.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 # --- step 3: convert into a listening socket
 ls.listen()
@@ -37,7 +37,7 @@ while True:
         msg = msg_raw.decode()
 
         print(f"CONNECTION {count_connect}.Client IP, PORT: ({IP}, {PORT})")
-        print(f"Received message: ", end="")
+        print(f"Received message: ")
         termcolor.cprint(msg, "green")
         print(f"Waiting for clients to connect")
 
