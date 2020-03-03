@@ -7,11 +7,11 @@ PORT = 8080
 # --- step 1: creating the socket
 ls = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# --- step 2: Bind the socket to the server's IP and PORT
-ls.bind((IP, PORT))
-
 # -- Optional: This is for avoiding the problem of Port already in use
 ls.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+# --- step 2: Bind the socket to the server's IP and PORT
+ls.bind((IP, PORT))
 
 # --- step 3: convert into a listening socket
 ls.listen()
@@ -19,12 +19,14 @@ ls.listen()
 print('Server is configured!')
 
 count_connect = 0
+list_ip_port = []
 
-while True:
+while count_connect < 5:
 
     try:
         # --- step 4: wait for client to connect
         (cs, client_ip_port) = ls.accept()
+        list_ip_port.append(client_ip_port)
 
     except KeyboardInterrupt:
         print(f"Server is done!")
@@ -46,3 +48,7 @@ while True:
         cs.send(response.encode())
 
         cs.close()
+
+print("The following clients have connected to the server")
+for e in range(len(list_ip_port)):
+    print(f"Client {e}: {list_ip_port[e]}")
