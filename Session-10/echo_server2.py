@@ -18,6 +18,8 @@ ls.listen()
 
 print('Server is configured!')
 
+count_connect = 0
+
 while True:
 
     try:
@@ -30,11 +32,14 @@ while True:
         exit()
     else:
         # --- step 5: receiving information from the client
+        count_connect = count_connect + 1
         msg_raw = cs.recv(2000)
         msg = msg_raw.decode()
 
+        print(f"CONNECTION {count_connect}.Client IP, PORT: ({IP}, {PORT})")
         print(f"Received message: ")
         termcolor.cprint(msg, "green")
+        print(f"Waiting for clients to connect")
 
         # --- step 6: send a response message to the client
         response = f"ECHO: {msg}\n"
