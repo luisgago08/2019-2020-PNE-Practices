@@ -8,22 +8,15 @@ class Seq:
     ERROR = "ERROR"
 
     def __init__(self, strbases=NULL):
-        """Constructor:
-        :type strbases: string with the bases of the sequence
-        """
-
-        # -- Check if it is the null seq
         if strbases == self.NULL:
             self.strbases = self.NULL
             print("NULL Seq created")
             return
-
-        # -- Check if the string passed by the user is valid
-        if not self.valid_str(strbases):
-            self.strbases = self.ERROR
-            print("INVALID Seq!")
-            return
-
+        for i in strbases:
+            if i not in ["A", "C", "G", "T"]:
+                self.strbases = self.ERROR
+                print("INVALID Seq!")
+                return
         # -- Store the string in the object
         self.strbases = strbases
         print("New sequence created!")
@@ -31,9 +24,11 @@ class Seq:
     def __str__(self):
         return self.strbases
 
+    @staticmethod
     def ping():
         print("PING OK")
 
+    @staticmethod
     def valid_str(strbases):
         """Check if the string is valid or not"""
 
