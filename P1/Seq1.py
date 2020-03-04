@@ -66,5 +66,50 @@ class Seq:
         self.strbases = "".join(body)
         return self
 
+    def count_base(self, base):
+        """
+        Counting the given base on the sequence
+        :param base: Character
+        :return: Integer
+        """
+        return self.strbases.count(base)
+
+    def count(self):
+        """
+        Calculate the number of bases in the sequence
+        :return: Dictionary with the results
+        """
+        res = {'A': self.count_base('A'), 'T': self.count_base('T'),
+               'C': self.count_base('C'), 'G': self.count_base('G')}
+        return res
+
+    def reverse(self):
+        """
+        Return the reverse sequence
+        :return: String
+        """
+        if self.strbases in [self.NULL, self.ERROR]:
+            return self.strbases
+        else:
+            return self.strbases[::-1]
+
+    def complement(self):
+        """
+        Return the complement sequence
+        :return: String
+        """
+
+        # -- In case of Null or invalid sequences the
+        # -- complement is not calculated
+        if self.strbases in [self.NULL, self.ERROR]:
+            return self.strbases
+
+        # -- Dictionary of complement bases
+        basec = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C'}
+
+        res = ""
+
+        for b in self.strbases:
+            res += basec[b]
 
         return res
