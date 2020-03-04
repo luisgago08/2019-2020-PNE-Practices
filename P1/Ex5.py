@@ -8,9 +8,8 @@ s2 = Seq("ACTGA")
 
 s3 = Seq("Invalid sequence")
 
-print(f"Sequence 1: (Length: {s1.len()}) {s1}")
-print(s1.count())
-print(f"Sequence 2: (Length: {s2.len()}) {s2}")
-print(s2.count())
-print(f"Sequence 3: (Length: {s3.len()}) {s3}")
-print(s3.count())
+for i, s in enumerate([s1, s2, s3]):
+    print(f"Sequence {i}: (Length: {s.len()}) {s}")
+    for b in ['A', 'C', 'T', 'G']:
+        print(f"  {b}: {s.count_base(b)}", end=", ")
+    print()
