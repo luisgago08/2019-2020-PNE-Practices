@@ -1,6 +1,6 @@
 from Seq1 import Seq
 
-print(f"-----| Exercise 6 |------")
+print(f"-----| Exercise 7 |------")
 
 s1 = Seq()
 
