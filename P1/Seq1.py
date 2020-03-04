@@ -31,11 +31,9 @@ class Seq:
     def __str__(self):
         return self.strbases
 
-    @staticmethod
     def ping():
         print("PING OK")
 
-    @staticmethod
     def valid_str(strbases):
         """Check if the string is valid or not"""
 
