@@ -14,6 +14,12 @@ def get_resource(path):
 
     elif path == "/info/C":  # Lo que aparece en el URL
         response = Path("C.html").read_text()
+
+    elif path == "/info/T":  # Lo que aparece en el URL
+        response = Path("T.html").read_text()
+
+    elif path == "/info/G":  # Lo que aparece en el URL
+        response = Path("G.html").read_text()
     return response
 
 
