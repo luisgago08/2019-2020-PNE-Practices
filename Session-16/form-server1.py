@@ -1,11 +1,9 @@
 import http.server
 import socketserver
-#import termcolor
 from pathlib import Path
 
 # Define the Server's port
 PORT = 8080
-
 
 # -- This is for preventing the error: "Port already in use"
 socketserver.TCPServer.allow_reuse_address = True
@@ -20,7 +18,6 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         in the HTTP protocol request"""
 
         # Print the request line
-        #termcolor.cprint(self.requestline, 'green')
         print(self.requestline)
 
         # Open the form1.html file
@@ -51,7 +48,6 @@ Handler = TestHandler
 
 # -- Open the socket server
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
-
     print("Serving at PORT", PORT)
 
     # -- Main loop: Attend the client. Whenever there is a new
