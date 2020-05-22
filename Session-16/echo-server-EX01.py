@@ -5,15 +5,9 @@ from pathlib import Path
 # Define the Server's port
 PORT = 8080
 
+
 # -- This is for preventing the error: "Port already in use"
 socketserver.TCPServer.allow_reuse_address = True
-
-
-# -- FUNCTIONS
-def msg(pathmessage):
-    list1 = pathmessage.partition("echo?=msg")
-    message = list1[2]
-    return message
 
 
 # Class with our Handler. It is a called derived from BaseHTTPRequestHandler
@@ -26,36 +20,46 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         # Print the request line
         print(self.requestline)
-        print(self.path)
 
-        # Open the form1.html file
-        # Read the index from the file
+        # Analize the request line
+        req_line = self.requestline.split(' ')
 
-        if self.path == "/":
-            contents = Path('form-EX01.html').read_text()
-        elif "/echo" in self.path:
-            a = self.path.partition("/echo?msg=")
-            mensaje = a[2]
-            mensaje1 = mensaje.replace("+", " ")
-            contents = f"""
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset= "utf-8">
-                    <title> RESPONSE </title>
-                <head> 
-                <body>
-                    <h1> Received Message </h1>
-                    <p> {mensaje1} </p>
-                <a href="http://127.0.0.1:8080/">Main page</a>
-                </body>
-                </html>
-                """
+        # Get the path. It always start with the / symbol
+        path = req_line[1]
+
+        # separamos el path,  lo que está antes del ? y lo que está depues
+        arguments = path.split("?")
+
+        action_echo = arguments[0]
+
+        if action_echo == "/":  # Manda la pg principal
+            contents = Path("form-1.html").read_text()
+            status = 200
+
+        elif action_echo == "/echo":  # Escribe en la pg principal
+            # después del ?
+            input = arguments[1]
+            # Separar el mensaje de lo que escribe el cliente
+            input_name = input.split("=")[0]
+            input_value = input.split("=")[1]
+            contents = Path("form-EX01.html").read_text()
+            # Para añadir el mensaje del cliente
+            contents = contents + f"<p>{input_value}</p>"
+            contents = contents + f'<a href="/">Main page</a>'
+            status = 200
+
         else:
-            contents = Path('Error.html').read_text()
+            # -- Resource NOT FOUND
+            print("ERROR: Not found")
+
+            # Message to send back to the clinet
+            contents = Path("Error.html").read_text()
+
+            # Status code is NOT FOUND
+            status = 404
 
         # Generating the response message
-        self.send_response(200)  # -- Status line: OK!
+        self.send_response(status)  # -- Status line: OK!
 
         # Define the content-type header:
         self.send_header('Content-Type', 'text/html')
@@ -78,6 +82,7 @@ Handler = TestHandler
 
 # -- Open the socket server
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
+
     print("Serving at PORT", PORT)
 
     # -- Main loop: Attend the client. Whenever there is a new
