@@ -20,41 +20,19 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         # Print the request line
         print(self.requestline)
 
-        req_line = self.requestline.split(" ")
-
-        # Get the path which always start with /
-        path = req_line[1]
-
-        # Para que cojatodo lo que está después de la /
-        path = path[1:]
-
-        # -- Depending on the resource requested
-        if path == "":
-            path = "index.html"
-
-            # -- Depending on the resource requested
-        if path == "index.html":
-            print("Main page requested")
-
-            # Read the index from the file
-            contents = Path(path).read_text()
-
-            # Status code is ok
-            status = 200
+        # Message to send back to the clinet
+        if self.path == "/" or self.path == "/index.html":
+            contents = Path("index.html").read_text()
+        elif self.path == "/info/A.html":
+            contents = Path("A.html").read_text()
+        elif self.path == "/info/G.html":
+            contents = Path("G.html").read_text()
+        elif self.path == "/info/C.html":
+            contents = Path("C.html").read_text()
+        elif self.path == "/info/T.html":
+            contents = Path("T.html").read_text()
         else:
-            # -- Resource NOT FOUND
-            print("ERROR: Not found")
-
-            # Message to send back to the clinet
             contents = Path("Error.html").read_text()
-
-            # Status code is NOT FOUND
-            status = 404
-
-
-
-
-
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!
 
