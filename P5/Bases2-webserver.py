@@ -20,24 +20,42 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         # Print the request line
         print(self.requestline)
 
-        # Message to send back to the clinet
-        if self.path == "/" or self.path == "/index.html":
-            contents = Path("index.html").read_text()
-        elif self.path == "/info/A.html":
-            contents = Path("A.html").read_text()
-        elif self.path == "/info/G.html":
-            contents = Path("G.html").read_text()
-        elif self.path == "/info/C.html":
-            contents = Path("C.html").read_text()
-        elif self.path == "/info/T.html":
-            contents = Path("T.html").read_text()
-        else:
+        # Analize the request line
+        req_line = self.requestline.split(' ')
+
+        # Get the path. It always start with the / symbol
+        path = req_line[1]
+
+        # It contains the resource name without the / symbol
+        # If this string is blank "", it means the main page
+        path = path[1:]
+
+        # -- Content type header
+        # -- Both, the error and the main page are in HTML
+        content_type = 'text/html'
+
+        print(path)
+
+        # -- Depending on the resource requested
+        if path == "":
+            path = "index.html"
+
+        # Read the resource as a file
+        try:
+            contents = Path(path).read_text()
+            status = 200
+
+        except FileNotFoundError:
             contents = Path("Error.html").read_text()
+
+            # Status code is NOT FOUND
+            status = 404
+
         # Generating the response message
-        self.send_response(200)  # -- Status line: OK!
+        self.send_response(status)
 
         # Define the content-type header:
-        self.send_header('Content-Type', 'text/html')
+        self.send_header('Content-Type', content_type)
         self.send_header('Content-Length', len(contents.encode()))
 
         # The header is finished
@@ -57,7 +75,6 @@ Handler = TestHandler
 
 # -- Open the socket server
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
-
     print("Serving at PORT", PORT)
 
     # -- Main loop: Attend the client. Whenever there is a new
