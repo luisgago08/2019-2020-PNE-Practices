@@ -28,7 +28,6 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         # Para que cojatodo lo que está después de la /
         path = path[1:]
 
-
         # -- Depending on the resource requested
         if path == "index.html" or path == "":
             # -- Read the resource as a file
@@ -42,18 +41,18 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 status = 404
 
 
-        # Generating the response message
-        self.send_response(status)
+            # Generating the response message
+            self.send_response(status)
 
-        # Define the content-type header:
-        self.send_header('Content-Type', 'text/html')
-        self.send_header('Content-Length', len(contents.encode()))
+            # Define the content-type header:
+            self.send_header('Content-Type', 'text/html')
+            self.send_header('Content-Length', len(contents.encode()))
 
-        # The header is finished
-        self.end_headers()
+            # The header is finished
+            self.end_headers()
 
-        # Send the response message
-        self.wfile.write(contents.encode())
+            # Send the response message
+            self.wfile.write(contents.encode())
 
         return
 
