@@ -1,7 +1,7 @@
 import http.server
 import socketserver
 from pathlib import Path
-from Seq1 import Seq
+from P1/Seq1.py import Seq
 
 FOLDER = "../Session-04/"
 TEXT = ".txt"
