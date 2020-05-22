@@ -37,9 +37,6 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         sequences = ["ACCTTGAA", "TGCATGCA", "GGGCATTA", "CTCTCAGA", "AGTAATGC"]
 
         if path == "/":  # Manda la pg principal
-            # contents = Path("form-1.html").read_text()
-            # contents = Path("form-2.html").read_text()
-            # contents = Path("form-3.html").read_text()
             contents = Path("form-4.html").read_text()
 
             status = 200
@@ -124,20 +121,20 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             if operation_select == "Info":
                 seq_length = seq.len()
                 number_of_A = seq.count_base("A")
-                porcentaje_A = "{:.1f}".format(100 * number_of_A / seq_length)
+                percentage_A = "{:.1f}".format(100 * number_of_A / seq_length)
                 number_of_G = seq.count_base("G")
-                porcentaje_G = "{:.1f}".format(100 * number_of_G / seq_length)
+                percentage_G = "{:.1f}".format(100 * number_of_G / seq_length)
                 number_of_T = seq.count_base("T")
-                porcentaje_T = "{:.1f}".format(100 * number_of_T / seq_length)
+                percentage_T = "{:.1f}".format(100 * number_of_T / seq_length)
                 number_of_C = seq.count_base("C")
-                porcentaje_C = "{:.1f}".format(100 * number_of_C / seq_length)
+                percentage_C = "{:.1f}".format(100 * number_of_C / seq_length)
 
                 contents_of_operations = f"""
                 <p>Total length: {seq_length}</p>
-                <p>A: {number_of_A} ({porcentaje_A}%)</p>
-                <p>C: {number_of_C} ({porcentaje_C}%)</p>
-                <p>G: {number_of_G} ({porcentaje_G}%)</p>
-                <p>T: {number_of_T} ({porcentaje_T}%)</p>"""
+                <p>A: {number_of_A} ({percentage_A}%)</p>
+                <p>C: {number_of_C} ({percentage_C}%)</p>
+                <p>G: {number_of_G} ({percentage_G}%)</p>
+                <p>T: {number_of_T} ({percentage_T}%)</p>"""
 
             elif operation_select == "Comp":
                 contents_of_operations = seq.complement()
