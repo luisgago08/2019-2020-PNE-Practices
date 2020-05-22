@@ -20,42 +20,46 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         # Print the request line
         print(self.requestline)
 
-        # Analize the request line
-        req_line = self.requestline.split(' ')
+        req_line = self.requestline.split(" ")
 
-        # Get the path. It always start with the / symbol
+        # Get the path which always start with /
         path = req_line[1]
 
-        # It contains the resource name without the / symbol
-        # If this string is blank "", it means the main page
+        # Para que cojatodo lo que está después de la /
         path = path[1:]
-
-        # -- Content type header
-        # -- Both, the error and the main page are in HTML
-        content_type = 'text/html'
-
-        print(path)
 
         # -- Depending on the resource requested
         if path == "":
             path = "index.html"
 
-        # Read the resource as a file
-        try:
-            contents = Path(path).read_text()
-            status = 200
+            # -- Depending on the resource requested
+        if path == "index.html":
+            print("Main page requested")
 
-        except FileNotFoundError:
+            # Read the index from the file
+            contents = Path(path).read_text()
+
+            # Status code is ok
+            status = 200
+        else:
+            # -- Resource NOT FOUND
+            print("ERROR: Not found")
+
+            # Message to send back to the clinet
             contents = Path("Error.html").read_text()
 
             # Status code is NOT FOUND
             status = 404
 
+
+
+
+
         # Generating the response message
-        self.send_response(status)
+        self.send_response(200)  # -- Status line: OK!
 
         # Define the content-type header:
-        self.send_header('Content-Type', content_type)
+        self.send_header('Content-Type', 'text/html')
         self.send_header('Content-Length', len(contents.encode()))
 
         # The header is finished
@@ -75,6 +79,7 @@ Handler = TestHandler
 
 # -- Open the socket server
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
+
     print("Serving at PORT", PORT)
 
     # -- Main loop: Attend the client. Whenever there is a new
