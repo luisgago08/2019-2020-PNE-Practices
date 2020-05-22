@@ -5,7 +5,6 @@ from pathlib import Path
 # Define the Server's port
 PORT = 8080
 
-
 # -- This is for preventing the error: "Port already in use"
 socketserver.TCPServer.allow_reuse_address = True
 
@@ -33,20 +32,30 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         action_echo = arguments[0]
 
         if action_echo == "/":  # Manda la pg principal
-            contents = Path("form-1.html").read_text()
+            contents = Path("form-EX02.html").read_text()
             status = 200
 
-        elif action_echo == "/echo":  # Escribe en la pg principal
+        elif action_echo == "/myserver":  # Escribe en la pg principal
             input = arguments[1]
-            # Separar el mensaje de lo que escribe el cliente
-            input_name = input.split("=")[0]
+            # Separar el mensaje de lo que escribe el cliente, ahora puede haber dos iguales si activas lo de las mayúsculas
+            input_name = input.split("=")[-1]
             input_value = input.split("=")[1]
-            contents = Path("form-EX01.html").read_text()
-            # Para añadir el mensaje del cliente
-            contents = contents + f"<p>{input_value}</p>"
-            contents = contents + f'<a href="/">Main page</a>'
-            status = 200
+            input_value_check_off = input_value.split("&")[0]
+            #input_value_check_on = input_value.split("&")[1]
 
+            if "on" in input_name:
+                contents = Path("form-EX01.html").read_text()
+                # Para añadir el mensaje del cliente
+                contents = contents + f"<p>{input_value_check_off.upper()}</p>"
+                contents = contents + f'<a href="/">Main page</a>'
+                status = 200
+
+            else:
+                contents = Path("form-EX01.html").read_text()
+                # Para añadir el mensaje del cliente
+                contents = contents + f"<p>{input_value}</p>"
+                contents = contents + f'<a href="/">Main page</a>'
+                status = 200
         else:
             # -- Resource NOT FOUND
             print("ERROR: Not found")
@@ -56,6 +65,8 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
             # Status code is NOT FOUND
             status = 404
+
+
 
         # Generating the response message
         self.send_response(status)  # -- Status line: OK!
@@ -81,7 +92,6 @@ Handler = TestHandler
 
 # -- Open the socket server
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
-
     print("Serving at PORT", PORT)
 
     # -- Main loop: Attend the client. Whenever there is a new
