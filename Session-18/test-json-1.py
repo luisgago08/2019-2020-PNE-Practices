@@ -1,5 +1,4 @@
 import json
-import termcolor
 from pathlib import Path
 
 # -- Read the json file
@@ -18,7 +17,7 @@ age = person['age']
 
 # Print the information on the console, in colors
 print()
-termcolor.cprint("Name: ", 'green', end="")
+print("Name: ", end="")
 print(firstname, lastname)
-termcolor.cprint("Age: ", 'green', end="")
+print("Age: ", end="")
 print(age)
