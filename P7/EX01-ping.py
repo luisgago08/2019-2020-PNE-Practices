@@ -3,8 +3,8 @@ import json
 
 SERVER = "rest.ensembl.org"
 ENDPOINT = "/info/ping"
-PARAM = "?content-type=application/json"
-URL = SERVER + ENDPOINT + PARAM
+PARAMS = "?content-type=application/json"
+URL = SERVER + ENDPOINT + PARAMS
 
 print()
 print(f"SERVER: {SERVER}")
@@ -17,7 +17,7 @@ conn = http.client.HTTPConnection(SERVER)
 # -- MESSAGING
 
 try:
-    conn.request("GET", ENDPOINT + PARAM)
+    conn.request("GET", ENDPOINT + PARAMS)
 except ConnectionRefusedError:
     print("ERROR! Cannot connect to the Server")
     exit()
