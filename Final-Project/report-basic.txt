@@ -1,0 +1,7 @@
+Test report example
+====================
+---> listSpecies endpoint
+
+* TEST 1:
+
+* Input:
