@@ -49,30 +49,47 @@ for key1 in sequence_id:
     data1 = r1.read().decode("utf-8")
 
     # -- CREATING A VARIABLE WITH THE DATA
-    response = json.loads(data1)
+    # -- CREATING A VARIABLE WITH THE DATA
+    gene = json.loads(data1)
 
-    print("GENE: ", end="")
-    print(key1)
+    # Print the information in the object
+    print()
+    print("Gene: ", end="")
+    print(sequence_id[key1])
 
-    print("DESCRIPTION: ", end="")
-    print(response['desc'])
+    print("Description: ", end="")
+    print(gene["desc"])
 
-    s = Seq(response['seq'])
-    dictionarycount = s.count
-    length = s.len()
+    gene_seq = gene["seq"]
+    seq = Seq(gene_seq)
+    seq_length = len(gene_seq)
 
-    print(f"Total length:", end="")
-    print(length)
-    for key2 in dictionarycount:
-        print(key2, end=":")
-        average = (int(dictionarycount[key2]) / length) * 100
-        potato = f" {dictionarycount[key2]} ({round(average, 1)}%)"
-        print(potato)
+    print("Total length: ", end="")
+    print(seq_length)
+    number_of_A = seq.count_base("A")
+    percentage_A = "{:.1f}".format(100 * number_of_A / seq_length)
+    number_of_G = seq.count_base("G")
+    percentage_G = "{:.1f}".format(100 * number_of_G / seq_length)
+    number_of_T = seq.count_base("T")
+    percentage_T = "{:.1f}".format(100 * number_of_T / seq_length)
+    number_of_C = seq.count_base("C")
+    percentage_C = "{:.1f}".format(100 * number_of_C / seq_length)
 
-    listvalues = list(dictionarycount.values())
-    maximum = max(listvalues)
-    print("Most frequent base", end=":")
+    print("A", end="")
+    print(f": {number_of_A} ({percentage_A}%)")
+    print("C", end="")
+    print(f": {number_of_C} ({percentage_C}%)")
+    print("G", end="")
+    print(f": {number_of_G} ({percentage_G}%)")
+    print("T", end="")
+    print(f": {number_of_T} ({percentage_T}%)")
 
-    for key3, value in dictionarycount.items():
-        if value == maximum:
-            print(key3)
+    value = 0
+    base = ""
+    for e, b in (seq.count()).items():
+        # se empieza en 0, cada vez que va apareciendo una base se va sumando y queda ese valor como el mínimo
+        while b > value:
+            value = b
+            base = e
+    print("Most frequent Base: ", end="")
+    print(base)
